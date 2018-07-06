@@ -2,19 +2,18 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Book = (props) => {
+  const { match } = props;
   const { imageLinks, shelf, title, authors } = props.book;
   return (
-    <li>
+    <li draggable={ match.url === '/search' ? 'false' : 'true' } onDragStart={(event) => event.dataTransfer.setData('text/json', JSON.stringify(props.book))}>
       <div className="book">
         <div className="book-top">
           {imageLinks &&
             <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${imageLinks.thumbnail}")` }}></div>
           }
           <div className="book-shelf-changer">
-            <select value={shelf ? shelf : 'none'} onChange={(event) => {
-              event.preventDefault();
-              props.onShelfChange(event.target.value, props.book)
-            }}>
+            <select value={shelf ? shelf : 'none'} onChange={(event) => props.onShelfChange(event.target.value, props.book)
+            }>
               <option value="move" disabled>Move to...</option>
               <option value="currentlyReading">Currently Reading</option>
               <option value="wantToRead">Want to Read</option>
@@ -33,6 +32,9 @@ const Book = (props) => {
 }
 
 Book.propTypes = {
+  match: PropTypes.shape({
+    url: PropTypes.string
+  }),
   book: PropTypes.shape({
     imageLinks: PropTypes.shape({
       thumbnail: PropTypes.string

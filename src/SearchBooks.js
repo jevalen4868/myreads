@@ -8,6 +8,9 @@ import * as BooksAPI from './BooksAPI';
 class SearchBooks extends Component {
 
   static propTypes = {
+    match: PropTypes.shape({
+      url: PropTypes.string
+    }),
     books: PropTypes.array,
     onShelfChange: PropTypes.func.isRequired,
   }
@@ -17,6 +20,7 @@ class SearchBooks extends Component {
   }
 
   executeSearch = (search) => {
+    console.log(this.props.match.url);
     // Update search asap.
     this.setState((prevState) => ({
       search: search
@@ -45,7 +49,7 @@ class SearchBooks extends Component {
 
   render() {
     const { search, books } = this.state;
-    const { onShelfChange } = this.props;
+    const { onShelfChange, match } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -67,6 +71,7 @@ class SearchBooks extends Component {
           <Bookshelf
             books={books}
             onShelfChange={onShelfChange}
+            match={match}
           />
         </div>
       </div>

@@ -5,11 +5,14 @@ import Book from './Book';
 
 class Bookshelf extends Component {
   static propTypes = {
+    match: PropTypes.shape({
+      url: PropTypes.string
+    }),
     books: PropTypes.array,
     onShelfChange: PropTypes.func.isRequired,
   }
   render() {
-    const { books, onShelfChange } = this.props;
+    const { books, onShelfChange, match } = this.props;
 
     return (
       <div className="bookshelf-books">
@@ -19,6 +22,7 @@ class Bookshelf extends Component {
               key={book.id}
               book={book}
               onShelfChange={onShelfChange}
+              match={match}
             />
           ))}
         </ol>

@@ -40,10 +40,6 @@ class BooksApp extends React.Component {
       }))
   }
 
-  addBook = (book) => {
-    console.log("book", book);
-  }
-
   shelfChange = (newShelf, book) => {
     // update data in API.
     BooksAPI.update(book, newShelf)
@@ -65,7 +61,7 @@ class BooksApp extends React.Component {
           let bookExists = false;
           for (let i = 0; i < updatedBooks.length; i++) {
             bookExists = updatedBooks[i].id === book.id;
-            if(bookExists) {
+            if (bookExists) {
               break;
             }
           }
@@ -89,14 +85,26 @@ class BooksApp extends React.Component {
         <div className="list-books-title">
           <h1>MyReads</h1>
         </div>
-        <Route exact path='/' render={() => (
+        <Route exact path='/' render={({ match }) => (
           <div>
             {Object.keys(shelves).map((shelfId) => (
               <div className="list-books"
                 key={shelfId}
               >
                 <div className="list-books-content">
-                  <div className="bookshelf">
+                  <div className="bookshelf"
+                    onDragOver={(event) => {
+                      event.preventDefault();
+                      // Set the dropEffect to move
+                      event.dataTransfer.dropEffect = 'move';
+                    }}
+                    onDrop={(event) => {
+                      event.preventDefault();
+                      // Get the id of the target and add the moved element to the target's DOM
+                      const data = event.dataTransfer.getData('text/json');
+                      this.shelfChange(shelfId, JSON.parse(data));
+                    }}
+                  >
                     <h2 className="bookshelf-title">{shelfId === 'currentlyReading'
                       ? 'Currenty Reading'
                       : shelfId === 'wantToRead'
@@ -108,6 +116,7 @@ class BooksApp extends React.Component {
                         book.shelf === shelfId
                       ))}
                       onShelfChange={this.shelfChange}
+                      match={match}
                     />
                   </div>
                 </div>
@@ -121,12 +130,13 @@ class BooksApp extends React.Component {
           </div>
         )}
         />
-        <Route exact path='/search' render={({ history }) => (
+        <Route exact path='/search' render={({ match }) => (
           <SearchBooks
             books={books}
             onShelfChange={(newShelf, book) => {
               this.shelfChange(newShelf, book);
             }}
+            match={match}
           />
         )}
         />
