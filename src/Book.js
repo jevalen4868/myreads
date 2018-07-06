@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 const Book = (props) => {
   const { match } = props;
   const { imageLinks, shelf, title, authors } = props.book;
+  const bookCoverStyle = { width: 128, height: 193, backgroundImage: `url("${imageLinks.thumbnail}")` };
   return (
     <li draggable={ match.url === '/search' ? 'false' : 'true' } onDragStart={(event) => event.dataTransfer.setData('text/json', JSON.stringify(props.book))}>
       <div className="book">
         <div className="book-top">
           {imageLinks &&
-            <div className="book-cover" style={{ width: 128, height: 193, backgroundImage: `url("${imageLinks.thumbnail}")` }}></div>
+            <div className="book-cover" style={bookCoverStyle}></div>
           }
           <div className="book-shelf-changer">
             <select value={shelf ? shelf : 'none'} onChange={(event) => props.onShelfChange(event.target.value, props.book)
