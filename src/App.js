@@ -65,6 +65,9 @@ class BooksApp extends React.Component {
           let bookExists = false;
           for (let i = 0; i < updatedBooks.length; i++) {
             bookExists = updatedBooks[i].id === book.id;
+            if(bookExists) {
+              break;
+            }
           }
           if (!bookExists) {
             book.shelf = newShelf;
