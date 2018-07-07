@@ -140,6 +140,30 @@ body, .app {
   align-items: flex-end;
 }
 
+.book-shelf-remove {
+  color: white;
+  text-align: center;
+  vertical-align: middle;
+  position: absolute;
+  right: 0;
+  top: -10px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: #60ac5d;
+  /*background-image: url('./icons/arrow-drop-down.svg');*/
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 20px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.book-shelf-remove span {
+  position: absolute;
+  top: 10px;
+  left: 15px;
+}
+
 .book-shelf-changer {
   position: absolute;
   right: 0;

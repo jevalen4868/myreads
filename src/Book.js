@@ -6,11 +6,22 @@ const Book = (props) => {
   const { imageLinks, shelf, title, authors } = props.book;
   const bookCoverStyle = { width: 128, height: 193, backgroundImage: `url("${imageLinks.thumbnail}")` };
   return (
-    <li draggable={ match.url === '/search' ? 'false' : 'true' } onDragStart={(event) => event.dataTransfer.setData('text/json', JSON.stringify(props.book))}>
+    <li draggable={match.url === '/search' ? 'false' : 'true'} onDragStart={(event) => event.dataTransfer.setData('text/json', JSON.stringify(props.book))}>
       <div className="book">
         <div className="book-top">
           {imageLinks &&
             <div className="book-cover" style={bookCoverStyle}></div>
+          }
+          {match.url !== '/search' &&
+            <a href="#"
+              onClick={(event) => {
+                event.preventDefault();
+                props.onShelfChange('none', props.book)
+              }}>
+              <span className="book-shelf-remove">
+                <span>X</span>
+              </span>
+            </a>
           }
           <div className="book-shelf-changer">
             <select value={shelf ? shelf : 'none'} onChange={(event) => props.onShelfChange(event.target.value, props.book)
