@@ -156,12 +156,7 @@ body, .app {
   background-position: center;
   background-size: 20px;
   box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
-}
-
-.book-shelf-remove span {
-  position: absolute;
-  top: 10px;
-  left: 15px;
+  cursor: pointer;
 }
 
 .book-shelf-changer {

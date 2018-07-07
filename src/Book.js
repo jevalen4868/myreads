@@ -13,15 +13,15 @@ const Book = (props) => {
             <div className="book-cover" style={bookCoverStyle}></div>
           }
           {match.url !== '/search' &&
-            <a href="#"
+            <button
+              className="book-shelf-remove"
               onClick={(event) => {
                 event.preventDefault();
                 props.onShelfChange('none', props.book)
-              }}>
-              <span className="book-shelf-remove">
-                <span>X</span>
-              </span>
-            </a>
+              }}
+              >
+              X
+            </button>
           }
           <div className="book-shelf-changer">
             <select value={shelf ? shelf : 'none'} onChange={(event) => props.onShelfChange(event.target.value, props.book)
