@@ -6,8 +6,8 @@ Created by Udacity React Nanodegree student Jeremy Valenzuela. Created to enable
 
 To get started developing right away:
 
-* install all project dependencies with `npm install`
-* start the development server with `npm start`
+* install all project dependencies with `npm install` OR `yarn install`
+* start the development server with `npm start` OR `yarn run start`
 
 ## Backend Server
 
