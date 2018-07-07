@@ -41,37 +41,32 @@ class BooksApp extends React.Component {
   }
 
   shelfChange = (newShelf, book) => {
+    this.setState((prevState) => {
+      // Create new array of books. Handle deleted book.
+      const updatedBooks = prevState.books.filter((prevBook) => {
+        const newBook = prevBook;
+        // Get rid of the old book entry.
+        if (newBook.id === book.id) {
+          return null;
+        }
+        return newBook;
+      });
+      if (newShelf !== 'none') {
+        book.shelf = newShelf;
+        updatedBooks.push(book);
+      }
+      // Return new state.
+      return ({
+        books: updatedBooks
+      })
+    })
+
     // update data in API.
     BooksAPI.update(book, newShelf)
       .then((newShelves) => {
         this.setState((prevState) => {
-          // Create new array of books. Handle deleted book.
-          const updatedBooks = prevState.books.filter((prevBook) => {
-            const newBook = prevBook;
-            if (newBook.id === book.id) {
-              newBook.shelf = newShelf;
-            }
-            // If set to none, we need to delete the book.
-            if (newBook.shelf !== 'none') {
-              return newBook;
-            }
-            return null;
-          });
-          // Handle add book
-          let bookExists = false;
-          for (let i = 0; i < updatedBooks.length; i++) {
-            bookExists = updatedBooks[i].id === book.id;
-            if (bookExists) {
-              break;
-            }
-          }
-          if (!bookExists) {
-            book.shelf = newShelf;
-            updatedBooks.push(book);
-          }
           // Return new state.
           return ({
-            books: updatedBooks,
             shelves: newShelves
           })
         })
@@ -95,8 +90,12 @@ class BooksApp extends React.Component {
                   <div className="bookshelf"
                     onDragOver={(event) => {
                       event.preventDefault();
-                      // Set the dropEffect to move
-                      event.dataTransfer.dropEffect = 'move';
+                    }}
+                    onDragEnter={(event) => {
+                      event.preventDefault();
+                    }}
+                    onDragLeave={(event) => {
+                      event.preventDefault();
                     }}
                     onDrop={(event) => {
                       event.preventDefault();

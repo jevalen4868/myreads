@@ -17,10 +17,10 @@ class SearchBooks extends Component {
 
   state = {
     search: '',
+    books: []
   }
 
   executeSearch = (search) => {
-    console.log(this.props.match.url);
     // Update search asap.
     this.setState((prevState) => ({
       search: search
@@ -46,10 +46,23 @@ class SearchBooks extends Component {
       })
   }
 
+  onShelfChange = (newShelf, book) => {
+    // Need to update the local book state so that the shelf reflects.
+    this.setState((prevState) => ({
+      books: prevState.books.map((prevBook) => {
+        if (book.id === prevBook.id) {
+          prevBook.shelf = newShelf;
+        }
+        return prevBook;
+      })
+    }))
+    this.props.onShelfChange(newShelf, book);
+  }
+
 
   render() {
     const { search, books } = this.state;
-    const { onShelfChange, match } = this.props;
+    const { match } = this.props;
     return (
       <div className="search-books">
         <div className="search-books-bar">
@@ -70,7 +83,7 @@ class SearchBooks extends Component {
         <div className="search-books-results">
           <Bookshelf
             books={books}
-            onShelfChange={onShelfChange}
+            onShelfChange={this.onShelfChange}
             match={match}
           />
         </div>
